@@ -12,15 +12,6 @@ find_package(Boost REQUIRED)
 
 if (Boost_FOUND)
     include_directories(${Boost_INCLUDE_DIRS})
-
-    # Add the executable target
     add_executable(mini_server main.cpp)
-
-    # Add compile definitions to the correct target
-    target_compile_definitions(mini_server
-            PRIVATE SYNC_SERVER
-    )
-
-    # Link Boost libraries
     target_link_libraries(mini_server ${Boost_LIBRARIES})
 endif ()
