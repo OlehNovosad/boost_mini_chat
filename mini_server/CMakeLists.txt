@@ -18,7 +18,7 @@ if (Boost_FOUND)
 
     # Add compile definitions to the correct target
     target_compile_definitions(mini_server
-            PRIVATE SYNC_SERVER
+            PRIVATE ASYNC_SERVER
     )
 
     # Link Boost libraries

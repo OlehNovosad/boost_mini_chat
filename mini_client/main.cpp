@@ -1,11 +1,11 @@
 #include <iostream>
 #include <string>
 #include <boost/asio.hpp>
-#include <utility>
 
 using boost::asio::ip::tcp;
 
-class SimpleClient {
+class SimpleClient
+{
     std::string _server_ip;
     uint16_t _server_port;
 
@@ -16,43 +16,57 @@ class SimpleClient {
 public:
     SimpleClient(std::string server_ip, uint16_t server_port) : _server_ip(std::move(server_ip)),
                                                                 _server_port(server_port),
-                                                                _socket(_io_context) {
+                                                                _socket(_io_context)
+    {
     }
 
-    void connect() {
-        try {
+    void connect()
+    {
+        try
+        {
             _socket.connect(tcp::endpoint(boost::asio::ip::make_address(_server_ip), _server_port));
             std::cout << "Connected to server: " << _server_ip << std::endl;
-        } catch (std::exception &e) {
+        }
+        catch (std::exception& e)
+        {
             std::cerr << "Exception: " << e.what() << std::endl;
         }
     }
 
-    void receive_message() {
+    void receive_message()
+    {
         char buff[1024] = {0};
 
-        try {
+        try
+        {
             _socket.read_some(boost::asio::buffer(buff), _ec);
             std::cout << "Received message: " << buff << std::endl;
-        } catch (std::exception &e) {
+        }
+        catch (std::exception& e)
+        {
             std::cerr << "Exception: " << e.what() << std::endl;
         }
     }
 
-    void send_message() {
+    void send_message()
+    {
         std::string message;
         std::cout << "Enter message: ";
         getline(std::cin, message);
 
-        try {
+        try
+        {
             boost::asio::write(_socket, boost::asio::buffer(message), _ec);
-        } catch (std::exception &e) {
+        }
+        catch (std::exception& e)
+        {
             std::cerr << "Exception: " << e.what() << std::endl;
         }
     }
 };
 
-[[noreturn]] int main() {
+[[noreturn]] int main()
+{
     std::string ip_address;
     std::cout << "Enter IP address: ";
     std::cin >> ip_address;
@@ -62,7 +76,8 @@ public:
 
     client.connect();
 
-    while (true) {
+    while (true)
+    {
         client.send_message();
         client.receive_message();
     }
